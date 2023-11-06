@@ -19,6 +19,8 @@ public class MeetingManagerActivity extends AppCompatActivity {
 
     private ListView meetingsListView;
     private MeetingManager meetingManager;
+    private ArrayAdapter<MeetingManager.Meeting> adapter;
+    private static final int REQUEST_CODE_ADD_MEETING = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class MeetingManagerActivity extends AppCompatActivity {
 
         List<MeetingManager.Meeting> meetings = meetingManager.getMeetings();
 
-        ArrayAdapter<MeetingManager.Meeting> adapter = new ArrayAdapter<MeetingManager.Meeting>(this, android.R.layout.simple_list_item_1, meetings) {
+        adapter = new ArrayAdapter<MeetingManager.Meeting>(this, android.R.layout.simple_list_item_1, meetings) {
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -60,11 +62,34 @@ public class MeetingManagerActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        findViewById(R.id.addMeetingButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MeetingManagerActivity.this, AddMeetingActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_ADD_MEETING);
+            }
+        });
     }
 
     private void openMeetingDetailsActivity(MeetingManager.Meeting selectedMeeting) {
         Intent intent = new Intent(this, MeetingDetailsActivity.class);
         intent.putExtra("meeting", selectedMeeting);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_ADD_MEETING && resultCode == RESULT_OK) {
+            String meetingLink = data.getStringExtra("meetingLink");
+            String topic = data.getStringExtra("topic");
+            String time = data.getStringExtra("time");
+            String location = data.getStringExtra("location");
+
+            meetingManager.createMeeting(meetingLink, topic, time, location);
+
+            adapter.notifyDataSetChanged();
+        }
     }
 }
