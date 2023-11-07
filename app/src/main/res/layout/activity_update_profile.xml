@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cardview_light_background"> <!-- Make sure this color matches the user profile page background -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"> <!-- Ensure padding is the same as in the user profile page -->
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update Profile"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Name -->
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                android:inputType="textPersonName"
+                android:padding="12dp" />
+
+            <!-- Date of Birth -->
+            <EditText
+                android:id="@+id/editTextDateOfBirth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date of Birth (dd/mm/yyyy)"
+                android:inputType="date"
+                android:padding="12dp" />
+
+            <!-- Native English Speaker -->
+            <CheckBox
+                android:id="@+id/checkBoxNativeEnglishSpeaker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Native English Speaker"
+                android:padding="12dp" />
+
+            <!-- Interests -->
+            <EditText
+                android:id="@+id/editTextInterests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Interests"
+                android:inputType="textMultiLine"
+                android:padding="12dp" />
+
+            <!-- Update Button -->
+            <Button
+                android:id="@+id/buttonUpdateProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:text="Update Profile" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
