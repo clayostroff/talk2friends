@@ -19,7 +19,7 @@
             android:name=".UpdateProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".UserProfileActivity"
+            android:name=".AddMeetingActivity"
             android:exported="false" />
         <activity
             android:name=".MeetingDetailsActivity"

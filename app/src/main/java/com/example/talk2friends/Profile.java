@@ -1,41 +1,81 @@
 package com.example.talk2friends;
 
-public class Profile
-{
+public class Profile {
     private String name;
     private String email;
     private String password;
+    private String age;
+    private boolean isNativeEnglishSpeaker;
+    private boolean isNativeSpanishSpeaker;
+    private String interests;
 
-    public Profile(String name, String email, String password) {
+    public Profile() {
+        // Default constructor required for calls to DataSnapshot.getValue(Profile.class)
+    }
+
+    public Profile(String name, String email, String password, String age, boolean isNativeEnglishSpeaker, boolean isNativeSpanishSpeaker, String interests) {
         this.name = name;
         this.email = email;
         this.password = password;
-    }
-
-    public Profile() {
+        this.age = age;
+        this.isNativeEnglishSpeaker = isNativeEnglishSpeaker;
+        this.isNativeSpanishSpeaker = isNativeSpanishSpeaker;
+        this.interests = interests;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public boolean isNativeEnglishSpeaker() {
+        return isNativeEnglishSpeaker;
+    }
+
+    public void setNativeEnglishSpeaker(boolean nativeEnglishSpeaker) {
+        isNativeEnglishSpeaker = nativeEnglishSpeaker;
+    }
+
+    public boolean isNativeSpanishSpeaker() {
+        return isNativeSpanishSpeaker;
+    }
+
+    public void setNativeSpanishSpeaker(boolean nativeSpanishSpeaker) {
+        isNativeSpanishSpeaker = nativeSpanishSpeaker;
+    }
+
+    public String getInterests() {
+        return interests;
+    }
+
+    public void setInterests(String interests) {
+        this.interests = interests;
     }
 }
