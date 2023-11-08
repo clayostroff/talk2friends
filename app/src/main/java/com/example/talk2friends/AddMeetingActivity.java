@@ -42,7 +42,7 @@ public class AddMeetingActivity extends AppCompatActivity {
                 String location = locationEditText.getText().toString();
 
                 ff = FirebaseFirestore.getInstance();
-                DocumentReference documentReference = ff.collection("meetings").document(meetingLink);
+                DocumentReference documentReference = ff.collection("meetings").document();
                 Map<String, Object> meeting = new HashMap<>();
                 meeting.put("link", meetingLink);
                 meeting.put("topic", topic);
