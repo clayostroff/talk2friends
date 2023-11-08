@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class UserOptionsActivity extends AppCompatActivity {
 
     private Button userProfileButton, meetingManagerButton, logoutButton;
@@ -35,7 +37,9 @@ public class UserOptionsActivity extends AppCompatActivity {
     }
 
     private void openLogoutActivity() {
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }
