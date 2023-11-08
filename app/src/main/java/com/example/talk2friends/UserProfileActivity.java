@@ -58,28 +58,36 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void loadUserProfile() {
-        String userId = firebaseAuth.getCurrentUser().getUid();
-        databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Assuming you have the following fields in your database for each user
-                String name = dataSnapshot.child("name").getValue(String.class);
-                String dob = dataSnapshot.child("dob").getValue(String.class);
-                Boolean isNativeEnglishSpeaker = dataSnapshot.child("nativeEnglishSpeaker").getValue(Boolean.class);
-                String interests = dataSnapshot.child("interests").getValue(String.class);
+        if (firebaseAuth.getCurrentUser() != null) {
+            String userId = firebaseAuth.getCurrentUser().getUid();
+            databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // Assuming you have the following fields in your database for each user
+                        String name = dataSnapshot.child("name").getValue(String.class);
+                        String dob = dataSnapshot.child("dob").getValue(String.class);
+                        Boolean isNativeEnglishSpeaker = dataSnapshot.child("nativeEnglishSpeaker").getValue(Boolean.class);
+                        String interests = dataSnapshot.child("interests").getValue(String.class);
 
-                // Set the user profile data to TextViews
-                textViewName.setText("Name: " + name);
-                textViewDateOfBirth.setText("Date of Birth: " + dob);
-                checkBoxIsNativeEnglishSpeaker.setChecked(isNativeEnglishSpeaker);
-                checkBoxIsNativeEnglishSpeaker.setEnabled(false); // The checkbox is not clickable in profile view
-                textViewInterests.setText("Interests: " + interests);
-            }
+                        // Set the user profile data to TextViews
+                        textViewName.setText("Name: " + name);
+                        textViewDateOfBirth.setText("Date of Birth: " + dob);
+                        checkBoxIsNativeEnglishSpeaker.setChecked(isNativeEnglishSpeaker != null ? isNativeEnglishSpeaker : false);
+                        checkBoxIsNativeEnglishSpeaker.setEnabled(false); // The checkbox is not clickable in profile view
+                        textViewInterests.setText("Interests: " + (interests != null ? interests : "N/A"));
+                    } else {
+                        Toast.makeText(UserProfileActivity.this, "User data does not exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(UserProfileActivity.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(UserProfileActivity.this, "Failed to load user data: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(UserProfileActivity.this, "Current user is null", Toast.LENGTH_SHORT).show();
+        }
     }
 }
