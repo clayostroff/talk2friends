@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class UserOptionsActivity extends AppCompatActivity {
 
-    private Button userProfileButton, meetingManagerButton;
+    private Button userProfileButton, meetingManagerButton, logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,20 +17,11 @@ public class UserOptionsActivity extends AppCompatActivity {
 
         userProfileButton = findViewById(R.id.userProfileButton);
         meetingManagerButton = findViewById(R.id.meetingManagerButton);
+        logoutButton = findViewById(R.id.logoutButton);
 
-        userProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openUserProfileActivity();
-            }
-        });
-
-        meetingManagerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMeetingManagerActivity();
-            }
-        });
+        userProfileButton.setOnClickListener(v -> openUserProfileActivity());
+        meetingManagerButton.setOnClickListener(v -> openMeetingManagerActivity());
+        logoutButton.setOnClickListener(v -> openLogoutActivity());
     }
 
     private void openUserProfileActivity() {
@@ -40,6 +31,11 @@ public class UserOptionsActivity extends AppCompatActivity {
 
     private void openMeetingManagerActivity() {
         Intent intent = new Intent(this, MeetingManagerActivity.class);
+        startActivity(intent);
+    }
+
+    private void openLogoutActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }

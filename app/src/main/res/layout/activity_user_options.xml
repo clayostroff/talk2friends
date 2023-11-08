@@ -18,6 +18,15 @@
         android:layout_below="@id/userProfileButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="Meetings" />
+        android:text="Meeting Manager" />
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/meetingManagerButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Logout" />
 
 </RelativeLayout>
