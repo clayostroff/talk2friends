@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button registerButton, loginButton, manageMeetingsButton;
+    private Button registerButton, loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         registerButton = findViewById(R.id.registerButton);
         loginButton = findViewById(R.id.loginButton);
-        manageMeetingsButton = findViewById(R.id.manageMeetingsButton);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,13 +45,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        manageMeetingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openManageMeetingsActivity();
-            }
-        });
-
     }
 
     private void openRegistrationActivity() {
@@ -62,11 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void openLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    private void openManageMeetingsActivity() {
-        Intent intent = new Intent(this, MeetingManagerActivity.class);
         startActivity(intent);
     }
 }
