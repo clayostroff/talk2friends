@@ -121,8 +121,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 // Toast.makeText(RegistrationActivity.this, String.valueOf((email.substring(email.length() - 8)).equals("@usc.edu")), Toast.LENGTH_SHORT).show();
 
-                if (name.isEmpty() || email.isEmpty() || password.isEmpty() || age.isEmpty()) {
-                    Toast.makeText(RegistrationActivity.this, "Please fill in all fields. Password must be at 6 characters long.", Toast.LENGTH_SHORT).show();
+                if (name.isEmpty() || email.isEmpty() || password.length() < 6 || age.isEmpty()) {
+                    Toast.makeText(RegistrationActivity.this, "Please fill in all fields. Password must be at least 6 characters long.", Toast.LENGTH_SHORT).show();
                 } else if (!((email.substring(email.length() - 8)).equals("@usc.edu"))) {
                     Toast.makeText(RegistrationActivity.this, "Only USC students allowed", Toast.LENGTH_SHORT).show();
                 } else {
