@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
                     // For example, you can add Firebase authentication here
 
                     // Example code for redirection to MainActivity
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, UserOptionsActivity.class));
                     finish(); // Close the LoginActivity
                 } else {
                     Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
