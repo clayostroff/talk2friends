@@ -12,10 +12,16 @@ public class UserOptionsActivity extends AppCompatActivity {
 
     private Button userProfileButton, meetingManagerButton, inviteFriendButton, friendRecommenedButton, logoutButton;
 
+    Profile userProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_options);
+
+        Intent intent = getIntent();
+        userProfile = (Profile) intent.getSerializableExtra("userProfile");
+
 
         userProfileButton = findViewById(R.id.userProfileButton);
         meetingManagerButton = findViewById(R.id.meetingManagerButton);
@@ -32,20 +38,24 @@ public class UserOptionsActivity extends AppCompatActivity {
 
     private void openUserProfileActivity() {
         Intent intent = new Intent(this, UserProfileActivity.class);
+        intent.putExtra("userProfile", userProfile);
         startActivity(intent);
     }
 
     private void openMeetingManagerActivity() {
         Intent intent = new Intent(this, MeetingManagerActivity.class);
+        intent.putExtra("userProfile", userProfile);
         startActivity(intent);
     }
 
     private void openFriendLinkActivity() {
         Intent intent = new Intent(this, InviteFriendActivity.class);
+        intent.putExtra("userProfile", userProfile);
         startActivity(intent);
     }
     private void openRecommenedFriendsActivity() {
         Intent intent = new Intent(this, RecommendFriendsActivity.class);
+        intent.putExtra("userProfile", userProfile);
         startActivity(intent);
     }
 
