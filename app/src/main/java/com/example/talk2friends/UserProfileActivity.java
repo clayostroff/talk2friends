@@ -19,8 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 public class UserProfileActivity extends AppCompatActivity {
 
     // Views
-    private TextView textViewName, textViewDateOfBirth, textViewInterests;
-    private CheckBox checkBoxIsNativeEnglishSpeaker;
+    private TextView textViewName, textViewAge, textViewInterests;
+  //  private CheckBox checkBoxIsNativeEnglishSpeaker;
     private Button buttonEditProfile;
 
     // Firebase
@@ -38,8 +38,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
         // Initialize views
         textViewName = findViewById(R.id.textViewName);
-        textViewDateOfBirth = findViewById(R.id.textViewDateOfBirth);
-        checkBoxIsNativeEnglishSpeaker = findViewById(R.id.checkBoxIsNativeEnglishSpeaker);
+        textViewAge = findViewById(R.id.textViewAge);
+     //   checkBoxIsNativeEnglishSpeaker = findViewById(R.id.checkBoxIsNativeEnglishSpeaker);
         textViewInterests = findViewById(R.id.textViewInterests);
         buttonEditProfile = findViewById(R.id.buttonEditProfile);
 
@@ -66,15 +66,15 @@ public class UserProfileActivity extends AppCompatActivity {
                     if (dataSnapshot.exists()) {
                         // Assuming you have the following fields in your database for each user
                         String name = dataSnapshot.child("name").getValue(String.class);
-                        String dob = dataSnapshot.child("dob").getValue(String.class);
+                        int age = dataSnapshot.child("age").getValue(Integer.class);
                         Boolean isNativeEnglishSpeaker = dataSnapshot.child("nativeEnglishSpeaker").getValue(Boolean.class);
                         String interests = dataSnapshot.child("interests").getValue(String.class);
 
                         // Set the user profile data to TextViews
                         textViewName.setText("Name: " + name);
-                        textViewDateOfBirth.setText("Date of Birth: " + dob);
-                        checkBoxIsNativeEnglishSpeaker.setChecked(isNativeEnglishSpeaker != null ? isNativeEnglishSpeaker : false);
-                        checkBoxIsNativeEnglishSpeaker.setEnabled(false); // The checkbox is not clickable in profile view
+                        textViewAge.setText("Age: " + age);
+                    //    checkBoxIsNativeEnglishSpeaker.setChecked(isNativeEnglishSpeaker != null ? isNativeEnglishSpeaker : false);
+                     //   checkBoxIsNativeEnglishSpeaker.setEnabled(false); // The checkbox is not clickable in profile view
                         textViewInterests.setText("Interests: " + (interests != null ? interests : "N/A"));
                     } else {
                         Toast.makeText(UserProfileActivity.this, "User data does not exist", Toast.LENGTH_SHORT).show();
