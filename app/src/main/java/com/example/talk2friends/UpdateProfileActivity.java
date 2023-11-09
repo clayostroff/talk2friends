@@ -22,6 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
+//add a button for invitation email
+//invite page 
+//click invite
 
 
 public class UpdateProfileActivity extends AppCompatActivity {

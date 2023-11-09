@@ -20,11 +20,21 @@
         android:layout_marginTop="50dp"
         android:text="Meeting Manager" />
 
+    <!-- New Invite Friend Button -->
+    <Button
+        android:id="@+id/inviteFriendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/meetingManagerButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Invite Friend" />
+
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/meetingManagerButton"
+        android:layout_below="@id/inviteFriendButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="Logout" />

@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class UserOptionsActivity extends AppCompatActivity {
 
-    private Button userProfileButton, meetingManagerButton, logoutButton;
+    private Button userProfileButton, meetingManagerButton, inviteFriendButton, logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +19,12 @@ public class UserOptionsActivity extends AppCompatActivity {
 
         userProfileButton = findViewById(R.id.userProfileButton);
         meetingManagerButton = findViewById(R.id.meetingManagerButton);
+        inviteFriendButton = findViewById(R.id.inviteFriendButton);
         logoutButton = findViewById(R.id.logoutButton);
 
         userProfileButton.setOnClickListener(v -> openUserProfileActivity());
         meetingManagerButton.setOnClickListener(v -> openMeetingManagerActivity());
+       // inviteFriendButton.setOnClickListener(v -> ());
         logoutButton.setOnClickListener(v -> openLogoutActivity());
     }
 
@@ -35,6 +37,11 @@ public class UserOptionsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MeetingManagerActivity.class);
         startActivity(intent);
     }
+
+//    private void openFriendLinkActivity() {
+//        Intent intent = new Intent(this, .class);
+//        startActivity(intent);
+//    }
 
     private void openLogoutActivity() {
         FirebaseAuth.getInstance().signOut();
