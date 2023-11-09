@@ -61,17 +61,17 @@ public class InviteFriendActivity extends Activity {
 
                     Session session = Session.getInstance(props, new Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication("your-email@gmail.com", "your-password"); // replace with your actual sender email address and password
+                            return new PasswordAuthentication("team60usc@gmail.com", "Clay2000@");
                         }
                     });
 
                     Message message = new MimeMessage(session);
-                    message.setFrom(new InternetAddress("your-email@gmail.com")); // replace with your actual sender email address
+                    message.setFrom(new InternetAddress("team60usc@gmail.com")); // sender email
                     message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
                     message.setSubject("Invitation to Join Talk2Friends");
                     message.setText("Hello! You have been invited to join Talk2Friends. "
                             + "Please use the following link to sign up. Your verification code is: " + verificationCode
-                            + "\n\nLink: http://www.yourappsite.com/signup"); // replace with your actual signup link
+                            + "\n\nLink: PLEASE BLESS US WITH A GOOD GRADE"); //LINK CODE
 
                     Transport.send(message);
 
