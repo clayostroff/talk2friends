@@ -2,6 +2,7 @@ package com.example.talk2friends;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -120,6 +121,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     String userID = firebaseAuth.getCurrentUser().getUid();
                     ff.collection("profiles").document(userID).update("name", name, "age", age, "interests", interests.toString());
                     Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 } else {
                     Toast.makeText(UpdateProfileActivity.this, "Please fill out all fields", Toast.LENGTH_LONG).show();
                 }
