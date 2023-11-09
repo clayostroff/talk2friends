@@ -73,8 +73,6 @@ public class UserProfileActivity extends AppCompatActivity {
                         // Set the user profile data to TextViews
                         textViewName.setText("Name: " + name);
                         textViewAge.setText("Age: " + age);
-                    //    checkBoxIsNativeEnglishSpeaker.setChecked(isNativeEnglishSpeaker != null ? isNativeEnglishSpeaker : false);
-                     //   checkBoxIsNativeEnglishSpeaker.setEnabled(false); // The checkbox is not clickable in profile view
                         textViewInterests.setText("Interests: " + (interests != null ? interests : "N/A"));
                     } else {
                         Toast.makeText(UserProfileActivity.this, "User data does not exist", Toast.LENGTH_SHORT).show();

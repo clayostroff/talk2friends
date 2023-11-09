@@ -31,7 +31,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private CheckBox sportsCheckbox, moviesCheckbox, musicCheckbox, readingCheckbox, cookingCheckbox, travelCheckbox, artCheckbox, gamingCheckbox, fitnessCheckbox, photographyCheckbox, technologyCheckbox, fashionCheckbox;
     private Button registerButton;
     private FirebaseAuth firebaseAuth;
-    FirebaseFirestore firebaseFirestore;
+    private FirebaseFirestore firebaseFirestore;
     String userID;
     private Profile profile;
 
@@ -130,7 +130,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(RegistrationActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                                firebaseAuth.getCurrentUser().sendEmailVerification();
                                 userID = firebaseAuth.getCurrentUser().getUid();
                                 DocumentReference documentReference = firebaseFirestore.collection("profiles").document(userID);
                                 Map<String, Object> user = new HashMap<>();
@@ -141,7 +141,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 user.put("non-native", isNativeSpanishSpeaker);
                                 user.put("interests", interests.toString());
                                 documentReference.set(user);
-                                startActivity(new Intent(getApplicationContext(), UserOptionsActivity.class));
+                                Toast.makeText(RegistrationActivity.this, "Registration successful. Please verify your email to sign in.", Toast.LENGTH_SHORT).show();
+                                firebaseAuth.getInstance().signOut();
                                 finish();
                             } else {
                                 Toast.makeText(RegistrationActivity.this, "Error 23", Toast.LENGTH_SHORT).show();

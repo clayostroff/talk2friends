@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,15 +30,14 @@ import java.util.Map;
 
 public class UpdateProfileActivity extends AppCompatActivity {
 
-    private EditText editTextName, editTextAge, editTextInterests;
-   // private CheckBox checkBoxNativeEnglishSpeaker;
+    private EditText editTextName, editTextAge;
     private Button buttonUpdateProfile;
 
     private CheckBox sportsCheckbox, moviesCheckbox, musicCheckbox, readingCheckbox, cookingCheckbox, travelCheckbox, artCheckbox, gamingCheckbox, fitnessCheckbox, photographyCheckbox, technologyCheckbox, fashionCheckbox;
 
 
     // Firebase
-    private DatabaseReference databaseReference;
+    private FirebaseFirestore ff;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -47,13 +47,9 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
-        // Assuming we have a node for users in our Firebase Realtime Database
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
         editTextName = findViewById(R.id.editTextName);
         editTextAge = findViewById(R.id.editTextAge);
-       // checkBoxNativeEnglishSpeaker = findViewById(R.id.checkBoxNativeEnglishSpeaker);
-        //checkbox = findViewById(R.id.editTextInterests);
         sportsCheckbox = findViewById(R.id.sportsCheckbox);
         moviesCheckbox = findViewById(R.id.moviesCheckbox);
         musicCheckbox = findViewById(R.id.musicCheckbox);
@@ -73,11 +69,12 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         buttonUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+                ff = FirebaseFirestore.getInstance();
                 String name = editTextName.getText().toString().trim();
-                String ageString = editTextAge.getText().toString().trim();
-                //boolean isNativeSpeaker = checkBoxNativeEnglishSpeaker.isChecked();
-            //    String interests = editTextInterests.getText().toString().trim();
+                String age = editTextAge.getText().toString().trim();
+
                 StringBuilder interests = new StringBuilder();
                 if (sportsCheckbox.isChecked()) {
                     interests.append("Sports, ");
@@ -119,20 +116,10 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     interests.setLength(interests.length() - 2);
                 }
 
-                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(ageString)) {
-                    // Initialize age with a default value
-                    int age = 0;
-                    // Try to parse the age string to an integer
-                    try {
-                        age = Integer.parseInt(ageString);
-                    } catch (NumberFormatException e) {
-                        // If the string does not contain a parsable integer, show a toast message
-                        Toast.makeText(UpdateProfileActivity.this, "Please enter a valid age", Toast.LENGTH_LONG).show();
-                        return; // Stop further execution in this case
-                    }
-
-                    // If the age is parsed successfully, update the user profile
-                    updateUserProfile(name, age, interests.toString());
+                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(age)) {
+                    String userID = firebaseAuth.getCurrentUser().getUid();
+                    ff.collection("profiles").document(userID).update("name", name, "age", age, "interests", interests.toString());
+                    Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(UpdateProfileActivity.this, "Please fill out all fields", Toast.LENGTH_LONG).show();
                 }
@@ -142,22 +129,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
     }
 
     private void updateUserProfile(String name, Integer age, String interests) {
-        String userId = firebaseAuth.getCurrentUser().getUid();
 
-        Map<String, Object> profileUpdates = new HashMap<>();
-        profileUpdates.put("name", name);
-        profileUpdates.put("age", age);
-        profileUpdates.put("interests", interests);
-
-        databaseReference.child(userId).updateChildren(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(UpdateProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(UpdateProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 }

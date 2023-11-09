@@ -45,9 +45,16 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            startActivity(new Intent(getApplicationContext(), UserOptionsActivity.class));
+                            if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified())
+                            {
+                                Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), UserOptionsActivity.class));
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Please verify your USC email before logging in", Toast.LENGTH_SHORT).show();
+                                FirebaseAuth.getInstance().signOut();
+                            }
                         } else {
-                            Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Incorrect email or password", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
