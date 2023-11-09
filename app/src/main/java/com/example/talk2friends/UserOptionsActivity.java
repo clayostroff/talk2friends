@@ -24,7 +24,7 @@ public class UserOptionsActivity extends AppCompatActivity {
 
         userProfileButton.setOnClickListener(v -> openUserProfileActivity());
         meetingManagerButton.setOnClickListener(v -> openMeetingManagerActivity());
-       // inviteFriendButton.setOnClickListener(v -> ());
+        inviteFriendButton.setOnClickListener(v -> openFriendLinkActivity());
         logoutButton.setOnClickListener(v -> openLogoutActivity());
     }
 
@@ -38,10 +38,10 @@ public class UserOptionsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    private void openFriendLinkActivity() {
-//        Intent intent = new Intent(this, .class);
-//        startActivity(intent);
-//    }
+    private void openFriendLinkActivity() {
+        Intent intent = new Intent(this, InviteFriendActivity.class);
+        startActivity(intent);
+    }
 
     private void openLogoutActivity() {
         FirebaseAuth.getInstance().signOut();
