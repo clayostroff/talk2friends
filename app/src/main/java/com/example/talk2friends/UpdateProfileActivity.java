@@ -33,6 +33,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
     private EditText editTextName, editTextAge;
     private Button buttonUpdateProfile;
+    private CheckBox nativeEnglishSpeakerCheckbox, nativeSpanishSpeakerCheckbox;
 
     private CheckBox sportsCheckbox, moviesCheckbox, musicCheckbox, readingCheckbox, cookingCheckbox, travelCheckbox, artCheckbox, gamingCheckbox, fitnessCheckbox, photographyCheckbox, technologyCheckbox, fashionCheckbox;
 
@@ -51,6 +52,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         editTextName = findViewById(R.id.editTextName);
         editTextAge = findViewById(R.id.editTextAge);
+        nativeEnglishSpeakerCheckbox = findViewById(R.id.nativeEnglishSpeakerCheckbox);
+        nativeSpanishSpeakerCheckbox = findViewById(R.id.nativeSpanishSpeakerCheckbox);
         sportsCheckbox = findViewById(R.id.sportsCheckbox);
         moviesCheckbox = findViewById(R.id.moviesCheckbox);
         musicCheckbox = findViewById(R.id.musicCheckbox);
@@ -75,6 +78,8 @@ public class UpdateProfileActivity extends AppCompatActivity {
                 ff = FirebaseFirestore.getInstance();
                 String name = editTextName.getText().toString().trim();
                 String age = editTextAge.getText().toString().trim();
+                boolean isNativeEnglishSpeaker = nativeEnglishSpeakerCheckbox.isChecked();
+                boolean isNativeSpanishSpeaker = nativeSpanishSpeakerCheckbox.isChecked();
 
                 StringBuilder interests = new StringBuilder();
                 if (sportsCheckbox.isChecked()) {
@@ -119,7 +124,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(age)) {
                     String userID = firebaseAuth.getCurrentUser().getUid();
-                    ff.collection("profiles").document(userID).update("name", name, "age", age, "interests", interests.toString());
+                    ff.collection("profiles").document(userID).update("name", name, "age", age, "native", isNativeEnglishSpeaker, "non-native", isNativeSpanishSpeaker, "interests", interests.toString());
                     Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 } else {

@@ -42,6 +42,13 @@
                 android:text="Age: "
                 android:padding="12dp" />
 
+            <TextView
+                android:id="@+id/textViewLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Native Language: "
+                android:padding="12dp" />
+
             <!-- Interests -->
             <TextView
                 android:id="@+id/textViewInterests"

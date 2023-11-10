@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 public class UserProfileActivity extends AppCompatActivity {
 
     // Views
-    private TextView textViewName, textViewAge, textViewInterests;
+    private TextView textViewName, textViewAge, textViewLanguage, textViewInterests;
   //  private CheckBox checkBoxIsNativeEnglishSpeaker;
     private Button buttonEditProfile;
 
@@ -50,7 +50,7 @@ public class UserProfileActivity extends AppCompatActivity {
         // Initialize views
         textViewName = findViewById(R.id.textViewName);
         textViewAge = findViewById(R.id.textViewAge);
-     //   checkBoxIsNativeEnglishSpeaker = findViewById(R.id.checkBoxIsNativeEnglishSpeaker);
+        textViewLanguage = findViewById(R.id.textViewLanguage);
         textViewInterests = findViewById(R.id.textViewInterests);
         buttonEditProfile = findViewById(R.id.buttonEditProfile);
 
@@ -82,10 +82,15 @@ public class UserProfileActivity extends AppCompatActivity {
                             // Use getString to retrieve a String field
                             String name = document.getString("name");
                             String age = document.getString("age");
+                            String language;
+                            if(document.getBoolean("native")){
+                                language = "English";
+                            } else language = "Spanish";
                             String interests = document.getString("interests");
 
                             textViewName.setText("Name: " + name);
                             textViewAge.setText("Age: " + age);
+                            textViewLanguage.setText("Native Language: " + language);
                             textViewInterests.setText("Interests: " + (interests != null ? interests : "N/A"));
                         } else {
                             Toast.makeText(UserProfileActivity.this, "User data does not exist", Toast.LENGTH_SHORT).show();
