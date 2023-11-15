@@ -37,29 +37,131 @@
 
             <!-- Date of Birth -->
             <EditText
-                android:id="@+id/editTextDateOfBirth"
+                android:id="@+id/editTextAge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date of Birth (dd/mm/yyyy)"
+                android:hint="Age"
                 android:inputType="date"
                 android:padding="12dp" />
 
-            <!-- Native English Speaker -->
-            <CheckBox
-                android:id="@+id/checkBoxNativeEnglishSpeaker"
+            <LinearLayout
+                android:id="@+id/languageLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Native English Speaker"
-                android:padding="12dp" />
+                android:orientation="horizontal"
+                android:padding="2dp"
+                android:layout_below="@id/detailsLayout">
+
+                <CheckBox
+                    android:id="@+id/nativeEnglishSpeakerCheckbox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Native English Speaker" />
+
+                <CheckBox
+                    android:id="@+id/nativeSpanishSpeakerCheckbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Non-Native Speaker" />
+            </LinearLayout>
+
 
             <!-- Interests -->
-            <EditText
-                android:id="@+id/editTextInterests"
+            <TextView
+                android:id="@+id/interestsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Interests"
+                android:textSize="18sp"
+                android:layout_margin="16dp"
+                android:padding="2dp"
+                android:layout_below="@id/languageLayout"
+                android:layout_alignParentStart="true" />
+
+            <GridLayout
+                android:id="@+id/interestsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Interests"
-                android:inputType="textMultiLine"
-                android:padding="12dp" />
+                android:columnCount="3"
+                android:rowCount="4"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:layout_below="@id/interestsText">
+
+                <CheckBox
+                    android:id="@+id/sportsCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sports" />
+
+                <CheckBox
+                    android:id="@+id/moviesCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Movies" />
+
+                <CheckBox
+                    android:id="@+id/musicCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Music" />
+
+                <CheckBox
+                    android:id="@+id/readingCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reading" />
+
+                <CheckBox
+                    android:id="@+id/cookingCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cooking" />
+
+                <CheckBox
+                    android:id="@+id/travelCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Travel" />
+
+                <CheckBox
+                    android:id="@+id/artCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Art" />
+
+                <CheckBox
+                    android:id="@+id/gamingCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gaming" />
+
+                <CheckBox
+                    android:id="@+id/fitnessCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fitness" />
+
+                <CheckBox
+                    android:id="@+id/photographyCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Photography" />
+
+                <CheckBox
+                    android:id="@+id/technologyCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Technology" />
+
+                <CheckBox
+                    android:id="@+id/fashionCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fashion" />
+            </GridLayout>
 
             <!-- Update Button -->
             <Button

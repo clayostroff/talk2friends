@@ -15,17 +15,28 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import androidx.annotation.NonNull;
 
 public class UserProfileActivity extends AppCompatActivity {
 
     // Views
-    private TextView textViewName, textViewDateOfBirth, textViewInterests;
-    private CheckBox checkBoxIsNativeEnglishSpeaker;
+    private TextView textViewName, textViewAge, textViewLanguage, textViewInterests;
+  //  private CheckBox checkBoxIsNativeEnglishSpeaker;
     private Button buttonEditProfile;
 
     // Firebase
-    private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +45,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth and Database Reference
         firebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        db = FirebaseFirestore.getInstance();
 
         // Initialize views
         textViewName = findViewById(R.id.textViewName);
-        textViewDateOfBirth = findViewById(R.id.textViewDateOfBirth);
-        checkBoxIsNativeEnglishSpeaker = findViewById(R.id.checkBoxIsNativeEnglishSpeaker);
+        textViewAge = findViewById(R.id.textViewAge);
+        textViewLanguage = findViewById(R.id.textViewLanguage);
         textViewInterests = findViewById(R.id.textViewInterests);
         buttonEditProfile = findViewById(R.id.buttonEditProfile);
 
@@ -59,31 +70,34 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void loadUserProfile() {
         if (firebaseAuth.getCurrentUser() != null) {
-            String userId = firebaseAuth.getCurrentUser().getUid();
-            databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        // Assuming you have the following fields in your database for each user
-                        String name = dataSnapshot.child("name").getValue(String.class);
-                        String dob = dataSnapshot.child("dob").getValue(String.class);
-                        Boolean isNativeEnglishSpeaker = dataSnapshot.child("nativeEnglishSpeaker").getValue(Boolean.class);
-                        String interests = dataSnapshot.child("interests").getValue(String.class);
+            String userID = firebaseAuth.getCurrentUser().getUid();
+            DocumentReference docRef = FirebaseFirestore.getInstance().collection("profiles").document(userID);
 
-                        // Set the user profile data to TextViews
-                        textViewName.setText("Name: " + name);
-                        textViewDateOfBirth.setText("Date of Birth: " + dob);
-                        checkBoxIsNativeEnglishSpeaker.setChecked(isNativeEnglishSpeaker != null ? isNativeEnglishSpeaker : false);
-                        checkBoxIsNativeEnglishSpeaker.setEnabled(false); // The checkbox is not clickable in profile view
-                        textViewInterests.setText("Interests: " + (interests != null ? interests : "N/A"));
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            // Use getString to retrieve a String field
+                            String name = document.getString("name");
+                            String age = document.getString("age");
+                            String language;
+                            if(document.getBoolean("native")){
+                                language = "English";
+                            } else language = "Spanish";
+                            String interests = document.getString("interests");
+
+                            textViewName.setText("Name: " + name);
+                            textViewAge.setText("Age: " + age);
+                            textViewLanguage.setText("Native Language: " + language);
+                            textViewInterests.setText("Interests: " + (interests != null ? interests : "N/A"));
+                        } else {
+                            Toast.makeText(UserProfileActivity.this, "User data does not exist", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         Toast.makeText(UserProfileActivity.this, "User data does not exist", Toast.LENGTH_SHORT).show();
                     }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(UserProfileActivity.this, "Failed to load user data: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {

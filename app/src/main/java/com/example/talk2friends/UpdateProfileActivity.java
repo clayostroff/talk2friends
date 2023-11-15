@@ -2,6 +2,7 @@ package com.example.talk2friends;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,19 +19,27 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
+//add a button for invitation email
+//invite page 
+//click invite
+
 
 public class UpdateProfileActivity extends AppCompatActivity {
 
-    private EditText editTextName, editTextAge, editTextDateOfBirth, editTextInterests;
-    private CheckBox checkBoxNativeEnglishSpeaker;
+    private EditText editTextName, editTextAge;
     private Button buttonUpdateProfile;
+    private CheckBox nativeEnglishSpeakerCheckbox, nativeSpanishSpeakerCheckbox;
+
+    private CheckBox sportsCheckbox, moviesCheckbox, musicCheckbox, readingCheckbox, cookingCheckbox, travelCheckbox, artCheckbox, gamingCheckbox, fitnessCheckbox, photographyCheckbox, technologyCheckbox, fashionCheckbox;
+
 
     // Firebase
-    private DatabaseReference databaseReference;
+    private FirebaseFirestore ff;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -40,49 +49,93 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
-        // Assuming we have a node for users in our Firebase Realtime Database
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
-        editTextName = findViewById(R.id.editTextName);editTextDateOfBirth = findViewById(R.id.editTextDateOfBirth);
-        checkBoxNativeEnglishSpeaker = findViewById(R.id.checkBoxNativeEnglishSpeaker);
-        editTextInterests = findViewById(R.id.editTextInterests);
+        editTextName = findViewById(R.id.editTextName);
+        editTextAge = findViewById(R.id.editTextAge);
+        nativeEnglishSpeakerCheckbox = findViewById(R.id.nativeEnglishSpeakerCheckbox);
+        nativeSpanishSpeakerCheckbox = findViewById(R.id.nativeSpanishSpeakerCheckbox);
+        sportsCheckbox = findViewById(R.id.sportsCheckbox);
+        moviesCheckbox = findViewById(R.id.moviesCheckbox);
+        musicCheckbox = findViewById(R.id.musicCheckbox);
+        readingCheckbox = findViewById(R.id.readingCheckbox);
+        cookingCheckbox = findViewById(R.id.cookingCheckbox);
+        travelCheckbox = findViewById(R.id.travelCheckbox);
+        artCheckbox = findViewById(R.id.artCheckbox);
+        gamingCheckbox = findViewById(R.id.gamingCheckbox);
+        fitnessCheckbox = findViewById(R.id.fitnessCheckbox);
+        photographyCheckbox = findViewById(R.id.photographyCheckbox);
+        technologyCheckbox = findViewById(R.id.technologyCheckbox);
+        fashionCheckbox = findViewById(R.id.fashionCheckbox);
+
+
+
         buttonUpdateProfile = findViewById(R.id.buttonUpdateProfile);
 
         buttonUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+                ff = FirebaseFirestore.getInstance();
                 String name = editTextName.getText().toString().trim();
-                String dob = editTextDateOfBirth.getText().toString().trim();
-                boolean isNativeSpeaker = checkBoxNativeEnglishSpeaker.isChecked();
-                String interests = editTextInterests.getText().toString().trim();
+                String age = editTextAge.getText().toString().trim();
+                boolean isNativeEnglishSpeaker = nativeEnglishSpeakerCheckbox.isChecked();
+                boolean isNativeSpanishSpeaker = nativeSpanishSpeakerCheckbox.isChecked();
 
-                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(dob) && !TextUtils.isEmpty(interests)) {
-                    updateUserProfile(name, dob, isNativeSpeaker, interests);
+                StringBuilder interests = new StringBuilder();
+                if (sportsCheckbox.isChecked()) {
+                    interests.append("Sports, ");
+                }
+                if (moviesCheckbox.isChecked()) {
+                    interests.append("Movies, ");
+                }
+                if (musicCheckbox.isChecked()) {
+                    interests.append("Music, ");
+                }
+                if (readingCheckbox.isChecked()) {
+                    interests.append("Reading, ");
+                }
+                if (cookingCheckbox.isChecked()) {
+                    interests.append("Cooking, ");
+                }
+                if (travelCheckbox.isChecked()) {
+                    interests.append("Travel, ");
+                }
+                if (artCheckbox.isChecked()) {
+                    interests.append("Art, ");
+                }
+                if (gamingCheckbox.isChecked()) {
+                    interests.append("Gaming, ");
+                }
+                if (fitnessCheckbox.isChecked()) {
+                    interests.append("Fitness, ");
+                }
+                if (photographyCheckbox.isChecked()) {
+                    interests.append("Photography, ");
+                }
+                if (technologyCheckbox.isChecked()) {
+                    interests.append("Technology, ");
+                }
+                if (fashionCheckbox.isChecked()) {
+                    interests.append("Fashion, ");
+                }
+                if (interests.length() > 0) {
+                    interests.setLength(interests.length() - 2);
+                }
+
+                if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(age)) {
+                    String userID = firebaseAuth.getCurrentUser().getUid();
+                    ff.collection("profiles").document(userID).update("name", name, "age", age, "native", isNativeEnglishSpeaker, "non-native", isNativeSpanishSpeaker, "interests", interests.toString());
+                    Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 } else {
                     Toast.makeText(UpdateProfileActivity.this, "Please fill out all fields", Toast.LENGTH_LONG).show();
                 }
             }
+
         });
     }
 
-    private void updateUserProfile(String name, String dob, boolean isNativeSpeaker, String interests) {
-        String userId = firebaseAuth.getCurrentUser().getUid();
+    private void updateUserProfile(String name, Integer age, String interests) {
 
-        Map<String, Object> profileUpdates = new HashMap<>();
-        profileUpdates.put("name", name);
-        profileUpdates.put("dob", dob);
-        profileUpdates.put("nativeEnglishSpeaker", isNativeSpeaker);
-        profileUpdates.put("interests", interests);
-
-        databaseReference.child(userId).updateChildren(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(UpdateProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(UpdateProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 }

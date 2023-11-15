@@ -36,21 +36,18 @@
 
             <!-- Date of Birth -->
             <TextView
-                android:id="@+id/textViewDateOfBirth"
+                android:id="@+id/textViewAge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Date of Birth: "
+                android:text="Age: "
                 android:padding="12dp" />
 
-            <!-- Native English Speaker -->
-            <CheckBox
-                android:id="@+id/checkBoxIsNativeEnglishSpeaker"
+            <TextView
+                android:id="@+id/textViewLanguage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Native English Speaker"
-                android:padding="12dp"
-                android:clickable="false"
-                android:focusable="false" />
+                android:text="Native Language: "
+                android:padding="12dp" />
 
             <!-- Interests -->
             <TextView
