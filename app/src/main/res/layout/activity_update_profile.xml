@@ -44,6 +44,29 @@
                 android:inputType="date"
                 android:padding="12dp" />
 
+            <LinearLayout
+                android:id="@+id/languageLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="2dp"
+                android:layout_below="@id/detailsLayout">
+
+                <CheckBox
+                    android:id="@+id/nativeEnglishSpeakerCheckbox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Native English Speaker" />
+
+                <CheckBox
+                    android:id="@+id/nativeSpanishSpeakerCheckbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Non-Native Speaker" />
+            </LinearLayout>
+
 
             <!-- Interests -->
             <TextView

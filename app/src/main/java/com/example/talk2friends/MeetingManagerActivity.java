@@ -22,10 +22,15 @@ public class MeetingManagerActivity extends AppCompatActivity {
     private ArrayAdapter<MeetingManager.Meeting> adapter;
     private static final int REQUEST_CODE_ADD_MEETING = 100;
 
+    Profile userProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting_manager);
+
+        Intent intent = getIntent();
+        userProfile = (Profile) intent.getSerializableExtra("userProfile");
 
         meetingsListView = findViewById(R.id.meetingsListView);
         meetingManager = new MeetingManager();
@@ -75,6 +80,7 @@ public class MeetingManagerActivity extends AppCompatActivity {
     private void openMeetingDetailsActivity(MeetingManager.Meeting selectedMeeting) {
         Intent intent = new Intent(this, MeetingDetailsActivity.class);
         intent.putExtra("meeting", selectedMeeting);
+        intent.putExtra("userProfile", userProfile);
         startActivity(intent);
     }
 

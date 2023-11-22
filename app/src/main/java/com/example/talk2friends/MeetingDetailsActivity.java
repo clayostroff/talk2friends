@@ -10,7 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,6 +28,7 @@ public class MeetingDetailsActivity extends AppCompatActivity {
     private TextView registeredUsersTextView;
     private SharedPreferences sharedPreferences;
 
+    private Profile userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,7 @@ public class MeetingDetailsActivity extends AppCompatActivity {
 
         // Retrieve the selected meeting from the intent
         meeting = (MeetingManager.Meeting) getIntent().getSerializableExtra("meeting");
+        userProfile = (Profile) getIntent().getSerializableExtra("userProfile");
 
         // Load registered users
         if (meeting != null) {
@@ -61,7 +68,6 @@ public class MeetingDetailsActivity extends AppCompatActivity {
         meeting = (MeetingManager.Meeting) getIntent().getSerializableExtra("meeting");
         registeredUsersTextView = findViewById(R.id.registeredUsersTextView);
 
-
         // Set the meeting details to the corresponding TextViews
         if (meeting != null) {
             topicTextView.setText(meeting.getTopic());
@@ -69,25 +75,48 @@ public class MeetingDetailsActivity extends AppCompatActivity {
             locationTextView.setText(meeting.getLocation());
             linkTextView.setText(meeting.getMeetingLink());
             displayRegisteredUsers();
-
         }
-
     }
+
     public void registerForMeeting(View view) {
         if (meeting != null) {
-            String userName = "UserXYZ"; // Replace with the actual user name
-            meeting.registerUser(userName);
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            if (firebaseAuth.getCurrentUser() != null) {
+                String userID = firebaseAuth.getCurrentUser().getUid();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                DocumentReference docRef = db.collection("profiles").document(userID);
 
-            // Save registered users
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            Gson gson = new Gson();
-            String json = gson.toJson(meeting.getRegisteredUsers());
-            editor.putString("registered_users_" + meeting.getTopic(), json);
-            editor.apply();
-            displayRegisteredUsers();
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String name = document.getString("name");
+                                if (!meeting.getRegisteredUsers().contains(name)) {
+                                    meeting.registerUser(name); // Register the user for the meeting with the retrieved name
 
+                                    // Save registered users
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    Gson gson = new Gson();
+                                    String json = gson.toJson(meeting.getRegisteredUsers());
+                                    editor.putString("registered_users_" + meeting.getTopic(), json);
+                                    editor.apply();
+                                    displayRegisteredUsers();
 
-            Toast.makeText(this, "You have successfully registered for the meeting!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MeetingDetailsActivity.this, "You have successfully registered for the meeting!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(MeetingDetailsActivity.this, "You have already registered for this meeting.", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(MeetingDetailsActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(MeetingDetailsActivity.this, "Task not successful", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
         }
     }
 
