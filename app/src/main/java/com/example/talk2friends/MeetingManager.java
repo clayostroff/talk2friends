@@ -29,6 +29,12 @@ public class MeetingManager
         this.meetings = new ArrayList<>();
     }
 
+    public MeetingManager(FirebaseAuth firebaseAuth, FirebaseFirestore firebaseFirestore) {
+        this.meetings = new ArrayList<>();
+        this.firebaseAuth = firebaseAuth;
+        this.firebaseFirestore = firebaseFirestore;
+    }
+
     public void createMeeting(String meetingLink, String topic, String time, String location) {
         Meeting newMeeting = new Meeting(meetingLink, topic, time, location);
         meetings.add(newMeeting);

@@ -30,13 +30,13 @@ public class RecommendFriendsActivity extends AppCompatActivity {
         setupRecyclerView(recommendedFriendsList);
     }
 
-    private List<Profile> getRecommendedFriends() {
+    public List<Profile> getRecommendedFriends() {
         // Placeholder for getting recommended friends based on shared interests
         // You will need to implement this method based on your backend logic
         return new ArrayList<>();
     }
 
-    private void setupRecyclerView(List<Profile> recommendedFriendsList) {
+    public void setupRecyclerView(List<Profile> recommendedFriendsList) {
         RecommendedFriendsAdapter adapter = new RecommendedFriendsAdapter(recommendedFriendsList);
         recyclerViewRecommendedFriends.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewRecommendedFriends.setAdapter(adapter);

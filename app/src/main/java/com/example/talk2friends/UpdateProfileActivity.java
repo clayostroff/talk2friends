@@ -129,8 +129,4 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         });
     }
-
-    private void updateUserProfile(String name, Integer age, String interests) {
-
-    }
 }

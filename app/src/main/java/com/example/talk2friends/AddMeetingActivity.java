@@ -34,8 +34,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         Button addButton = findViewById(R.id.addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 String meetingLink = linkEditText.getText().toString();
                 String topic = topicEditText.getText().toString();
                 String time = timeEditText.getText().toString();
