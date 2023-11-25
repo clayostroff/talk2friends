@@ -12,7 +12,7 @@ public class Profile implements Serializable {
     private String interests;
 
     public Profile() {
-        // Default constructor required for calls to DataSnapshot.getValue(Profile.class)
+
     }
 
     public Profile(String name, String email, String password, String age, boolean isNativeEnglishSpeaker, boolean isNativeSpanishSpeaker, String interests) {

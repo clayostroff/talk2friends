@@ -39,4 +39,3 @@ public class ProfileTest {
         assertEquals("Reading", profile.getInterests());
     }
 }
-
