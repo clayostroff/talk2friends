@@ -19,22 +19,22 @@ public class EmailTest
     }
 
     @Test
-    void testValidEmail() {
+    public void testValidEmail() {
         assertTrue(Email.isValidEmail("example@usc.edu"));
     }
 
     @Test
-    void testInvalidEmailNoAtSymbol() {
+    public void testInvalidEmailNoAtSymbol() {
         assertFalse(Email.isValidEmail("exampleusc.edu"));
     }
 
     @Test
-    void testInvalidEmailNotUSCStudent() {
+    public void testInvalidEmailNotUSCStudent() {
         assertFalse(Email.isValidEmail("example@gmail.com"));
     }
 
     @Test
-    void testInvalidEmailEmptyString() {
+    public void testInvalidEmailEmptyString() {
         assertFalse(Email.isValidEmail(""));
     }
 }

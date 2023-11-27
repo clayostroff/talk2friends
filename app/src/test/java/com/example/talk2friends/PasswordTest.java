@@ -3,40 +3,40 @@ package com.example.talk2friends;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-class PasswordTest
+public class PasswordTest
 {
     @Test
-    void testValidPassword() {
+    public void testValidPassword() {
         assertTrue(Password.isValidPassword("ValidPassword1"));
     }
 
     @Test
-    void testInvalidPasswordTooShort() {
+    public void testInvalidPasswordTooShort() {
         assertFalse(Password.isValidPassword("Abc1"));
     }
 
     @Test
-    void testInvalidPasswordTooLong() {
+    public void testInvalidPasswordTooLong() {
         assertFalse(Password.isValidPassword("LongPasswordThatExceeds32CharacterLimit"));
     }
 
     @Test
-    void testInvalidPasswordNoUpperCase() {
+    public void testInvalidPasswordNoUpperCase() {
         assertFalse(Password.isValidPassword("invalidpassword1"));
     }
 
     @Test
-    void testInvalidPasswordNoLowerCase() {
+    public void testInvalidPasswordNoLowerCase() {
         assertFalse(Password.isValidPassword("INVALIDPASSWORD1"));
     }
 
     @Test
-    void testInvalidPassword_NoNumbers() {
+    public void testInvalidPassword_NoNumbers() {
         assertFalse(Password.isValidPassword("InvalidPassword"));
     }
 
     @Test
-    void testInvalidPassword_Null() {
+    public void testInvalidPassword_Null() {
         assertFalse(Password.isValidPassword(null));
     }
 }
