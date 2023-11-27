@@ -2,7 +2,8 @@ package com.example.talk2friends;
 
 import java.io.Serializable;
 
-public class Profile implements Serializable {
+public class Profile implements Serializable
+{
     private String name;
     private String email;
     private String password;

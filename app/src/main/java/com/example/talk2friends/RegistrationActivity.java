@@ -123,7 +123,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 if (name.isEmpty() || email.isEmpty() || Password.isValidPassword(password)  || age.isEmpty()) {
                     Toast.makeText(RegistrationActivity.this, "Please fill in all fields. Password must be at least 6 characters long, contain at least one lowercase letter, one capital letter, and one number.", Toast.LENGTH_SHORT).show();
-                } else if (Email.isValidEmail(email)) {
+                } else if (!Email.isValidEmail(email)) {
                     Toast.makeText(RegistrationActivity.this, "Please enter a valid email. Only USC students allowed", Toast.LENGTH_SHORT).show();
                 } else {
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
