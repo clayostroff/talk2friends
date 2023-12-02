@@ -30,12 +30,20 @@
         android:layout_marginTop="50dp"
         android:text="Invite Friend" />
 
-    <!-- New Recommend Friends Button -->
+    <Button
+        android:id="@+id/friendsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inviteFriendButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Friends" />
+
     <Button
         android:id="@+id/recommendFriendsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/inviteFriendButton"
+        android:layout_below="@id/friendsButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="Recommend Friends" />
