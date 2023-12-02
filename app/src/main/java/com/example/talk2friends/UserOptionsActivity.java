@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class UserOptionsActivity extends AppCompatActivity {
 
-    private Button userProfileButton, meetingManagerButton, inviteFriendButton, friendRecommenedButton, logoutButton;
+    private Button userProfileButton, meetingManagerButton, inviteFriendButton, friendsButton, friendRecommenedButton, logoutButton;
 
     Profile userProfile;
 
@@ -26,12 +26,14 @@ public class UserOptionsActivity extends AppCompatActivity {
         userProfileButton = findViewById(R.id.userProfileButton);
         meetingManagerButton = findViewById(R.id.meetingManagerButton);
         inviteFriendButton = findViewById(R.id.inviteFriendButton);
+        friendsButton = findViewById(R.id.friendsButton);
         friendRecommenedButton = findViewById(R.id.recommendFriendsButton);
         logoutButton = findViewById(R.id.logoutButton);
 
         userProfileButton.setOnClickListener(v -> openUserProfileActivity());
         meetingManagerButton.setOnClickListener(v -> openMeetingManagerActivity());
         inviteFriendButton.setOnClickListener(v -> openFriendLinkActivity());
+        friendsButton.setOnClickListener(v -> openFriendsActivity());
         friendRecommenedButton.setOnClickListener(v -> openRecommenedFriendsActivity());
         logoutButton.setOnClickListener(v -> openLogoutActivity());
     }
@@ -53,6 +55,13 @@ public class UserOptionsActivity extends AppCompatActivity {
         intent.putExtra("userProfile", userProfile);
         startActivity(intent);
     }
+
+    private void openFriendsActivity() {
+        Intent intent = new Intent(this, FriendsActivity.class);
+        intent.putExtra("userProfile", userProfile);
+        startActivity(intent);
+    }
+
     private void openRecommenedFriendsActivity() {
         Intent intent = new Intent(this, RecommendFriendsActivity.class);
         intent.putExtra("userProfile", userProfile);
