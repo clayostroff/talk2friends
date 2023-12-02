@@ -107,5 +107,9 @@ public class MeetingManager
         public void setRegisteredUsers(List<String> registeredUsers) {
             this.registeredUsers = registeredUsers;
         }
+
+        public void unregisterUser(String name) {
+            registeredUsers.remove(name);
+        }
     }
 }

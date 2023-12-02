@@ -76,6 +76,15 @@ public class MeetingDetailsActivity extends AppCompatActivity {
             linkTextView.setText(meeting.getMeetingLink());
             displayRegisteredUsers();
         }
+
+        // Find the unregister button
+        Button unregisterButton = findViewById(R.id.unregisterButton);
+        unregisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unregisterForMeeting(v);
+            }
+        });
     }
 
     public void registerForMeeting(View view) {
@@ -107,6 +116,48 @@ public class MeetingDetailsActivity extends AppCompatActivity {
                                     Toast.makeText(MeetingDetailsActivity.this, "You have successfully registered for the meeting!", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(MeetingDetailsActivity.this, "You have already registered for this meeting.", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(MeetingDetailsActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(MeetingDetailsActivity.this, "Task not successful", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    public void unregisterForMeeting(View view) {
+        if (meeting != null) {
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            if (firebaseAuth.getCurrentUser() != null) {
+                String userID = firebaseAuth.getCurrentUser().getUid();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                DocumentReference docRef = db.collection("profiles").document(userID);
+
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                String name = document.getString("name");
+                                if (meeting.getRegisteredUsers().contains(name)) {
+                                    meeting.unregisterUser(name); // Unregister the user from the meeting with the retrieved name
+
+                                    // Save registered users
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    Gson gson = new Gson();
+                                    String json = gson.toJson(meeting.getRegisteredUsers());
+                                    editor.putString("registered_users_" + meeting.getTopic(), json);
+                                    editor.apply();
+                                    displayRegisteredUsers();
+
+                                    Toast.makeText(MeetingDetailsActivity.this, "You have successfully unregistered from the meeting.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(MeetingDetailsActivity.this, "You are not registered for this meeting.", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 Toast.makeText(MeetingDetailsActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();

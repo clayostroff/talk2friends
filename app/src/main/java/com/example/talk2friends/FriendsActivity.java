@@ -38,6 +38,8 @@ public class FriendsActivity extends AppCompatActivity {
                 // Implement your logic for adding friends here
             }
         });
+
+
     }
 
     // Sample method to create a list of friends
