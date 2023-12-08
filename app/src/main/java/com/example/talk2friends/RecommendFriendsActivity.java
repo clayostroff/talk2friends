@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RecommendFriendsActivity extends AppCompatActivity {
@@ -25,15 +26,52 @@ public class RecommendFriendsActivity extends AppCompatActivity {
         recyclerViewRecommendedFriends = findViewById(R.id.recyclerViewRecommendedFriends);
         textViewRecommendFriendsTitle = findViewById(R.id.textViewRecommendFriendsTitle);
 
-        // Assuming you have a method to get the list of recommended friends
         List<Profile> recommendedFriendsList = getRecommendedFriends();
         setupRecyclerView(recommendedFriendsList);
     }
 
     public List<Profile> getRecommendedFriends() {
-        // Placeholder for getting recommended friends based on shared interests
-        // You will need to implement this method based on your backend logic
-        return new ArrayList<>();
+        Profile currentUser = getCurrentUser();
+        List<Profile> allUsers = getAllUsers();
+        List<Profile> potentialFriends = new ArrayList<>(allUsers);
+        potentialFriends.remove(currentUser);
+
+        return determineFriendRecommendations(currentUser, potentialFriends);
+    }
+
+    private Profile getCurrentUser() {
+        return new Profile("Current User", "current.user@example.com", "password123", "30", true, false, "Music, Movies, Sports");
+    }
+
+    private List<Profile> getAllUsers() {
+        List<Profile> allUsers = new ArrayList<>();
+        allUsers.add(new Profile("Alice", "alice@example.com", "password123", "25", true, false, "Music, Art"));
+        allUsers.add(new Profile("Bob", "bob@example.com", "password123", "28", false, true, "Sports, Technology"));
+        allUsers.add(new Profile("Charlie", "charlie@example.com", "password123", "32", true, false, "Movies, Books"));
+        allUsers.add(getCurrentUser());
+
+        return allUsers;
+    }
+
+    private List<Profile> determineFriendRecommendations(Profile currentUser, List<Profile> potentialFriends) {
+        List<Profile> recommendedFriends = new ArrayList<>();
+        for (Profile potentialFriend : potentialFriends) {
+            if (sharesInterests(currentUser, potentialFriend)) {
+                recommendedFriends.add(potentialFriend);
+            }
+        }
+        return recommendedFriends;
+    }
+
+    private boolean sharesInterests(Profile user1, Profile user2) {
+        List<String> user1Interests = Arrays.asList(user1.getInterests().split(", "));
+        List<String> user2Interests = Arrays.asList(user2.getInterests().split(", "));
+        for (String interest : user1Interests) {
+            if (user2Interests.contains(interest)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setupRecyclerView(List<Profile> recommendedFriendsList) {
@@ -42,7 +80,6 @@ public class RecommendFriendsActivity extends AppCompatActivity {
         recyclerViewRecommendedFriends.setAdapter(adapter);
     }
 
-    // Inner class for RecyclerView.Adapter
     private class RecommendedFriendsAdapter extends RecyclerView.Adapter<RecommendedFriendsAdapter.ViewHolder> {
         private List<Profile> recommendedFriendsList;
 
