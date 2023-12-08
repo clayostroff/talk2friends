@@ -1,5 +1,6 @@
 package com.example.talk2friends;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +35,8 @@ public class FriendsActivity extends AppCompatActivity {
         addFriendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FriendsActivity.this, "Add Friends button clicked", Toast.LENGTH_SHORT).show();
-                // Implement your logic for adding friends here
+                Intent intent = new Intent(FriendsActivity.this, AddFriendsOption.class);
+                startActivity(intent);
             }
         });
 
