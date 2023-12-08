@@ -143,6 +143,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 documentReference.set(user);
                                 Toast.makeText(RegistrationActivity.this, "Registration successful. Please verify your email to sign in.", Toast.LENGTH_SHORT).show();
                                 firebaseAuth.getInstance().signOut();
+                                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
                                 finish();
                             } else {
                                 Toast.makeText(RegistrationActivity.this, "Error 23", Toast.LENGTH_SHORT).show();
